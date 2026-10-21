@@ -9,6 +9,22 @@
     <meta name="apple-mobile-web-app-title" content="Assistente" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Minha Assistente</title>
+    <script>
+      // Demo: entra direto como a Maria (usuária de exemplo do mock), sem passar pelo login
+      (function () {
+        var CHAVE = 'minha-assistente:token'
+        var b64 = function (o) { return btoa(JSON.stringify(o)).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_') }
+        try {
+          var atual = localStorage.getItem(CHAVE)
+          if (atual) {
+            var exp = JSON.parse(atob(atual.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp
+            if (exp * 1000 > Date.now()) return
+          }
+          var exp30 = Math.floor(Date.now() / 1000) + 30 * 86400
+          localStorage.setItem(CHAVE, b64({ alg: 'HS256', typ: 'JWT' }) + '.' + b64({ sub: '6f1c7a52-2d1e-4b8a-9f3e-1a2b3c4d5e6f', exp: exp30 }) + '.mock')
+        } catch (e) {}
+      })()
+    </script>
     <script type="module" crossorigin src="/minha-assistente-demo/assets/index-DqAVEENa.js"></script>
     <link rel="modulepreload" crossorigin href="/minha-assistente-demo/assets/button-C-eBM0sr.js">
     <link rel="modulepreload" crossorigin href="/minha-assistente-demo/assets/dist-DknwuSFK.js">
@@ -26,7 +42,6 @@
     <style>.demo-faixa{z-index:2147483000;color:#e6e8ee;pointer-events:auto;background:#12151c;border-radius:10px;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 12px;width:max-content;max-width:calc(100vw - 24px);padding:8px 14px;font:12.5px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;display:flex;position:fixed;bottom:12px;left:50%;transform:translate(-50%);box-shadow:0 10px 30px -10px #00000080}.demo-faixa strong{color:#7cb7ff}.demo-faixa code{color:#9fd9a8;font-family:ui-monospace,Consolas,monospace}.demo-faixa a{color:#7cb7ff;text-underline-offset:2px;text-decoration:underline}.demo-faixa button{color:#7cb7ff;font:inherit;cursor:pointer;background:0 0;border:0;padding:0}@media (width<=640px){.demo-faixa{bottom:calc(96px + env(safe-area-inset-bottom))}}</style>
     <div class="demo-faixa" role="note">
       <span><strong>Demo</strong> · dados fictícios, voltam ao início ao recarregar</span>
-      <span>Login: <code>maria@exemplo.com</code> / <code>uma-senha-forte</code></span>
       <a href="https://github.com/NathanSouza-hub/Minha-Assistente" target="_blank" rel="noopener">Código ↗</a>
       <button type="button" aria-label="Fechar aviso da demo" onclick="this.parentElement.remove()">✕</button>
     </div>
