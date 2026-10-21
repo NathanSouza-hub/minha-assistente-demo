@@ -1,0 +1,1 @@
+import{t as e}from"./compras-BsUVA9cL.js";var t=[`Leitura de e-mails`,`Leitura do WhatsApp`,`Enviar mensagens`,`Verificar pagamentos bancários`];function n(n){let r=new Set(n.map(t=>e(t.titulo)));return t.filter(t=>!r.has(e(t)))}export{n as t};
